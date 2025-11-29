@@ -34,27 +34,25 @@ def query_rag(request: QueryRequest) -> str:
         sources.append(doc.metadata.get("source", "Unknown").split("\\")[-1])
 
     if not context.strip():
-        return "No relevant information found."
+        return "No relevant information found in the documents."
 
     try:
-        client = openai.OpenAI(
-            base_url="https://openrouter.ai/api/v1",
-            api_key="sk-xxx"  # Dummy — this model ignores it
-        )
+        from groq import Groq
+        client = Groq(api_key=settings.groq_api_key)
 
         response = client.chat.completions.create(
-            model=settings.default_model,  # openrouter/bert-nebulon-alpha
+            model=settings.default_model,
             messages=[
-                {"role": "system", "content": "You are a helpful assistant. Use only the provided context. Be concise and accurate."},
+                {"role": "system", "content": "Use only the provided context. Answer accurately and concisely."},
                 {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {request.question}"}
             ],
             temperature=0.1,
             max_tokens=1000
         )
         answer = response.choices[0].message.content
-        logger.success("Answer generated with bert-nebulon-alpha")
+        logger.success("Answer generated with FREE Groq Llama-3.1")
         return answer + "\n\nSources: " + " | ".join(set(sources))
 
     except Exception as e:
-        logger.error(f"Bert-Nebulon failed: {e}")
-        return "Temporary model issue. Try again soon."
+        logger.error(f"Groq failed: {e}")
+        return "Temporary issue. Try again in 10 seconds."
