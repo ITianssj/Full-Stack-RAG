@@ -1,0 +1,38 @@
+# UI
+streamlit>=1.38
+
+# API
+openai>=1.0
+
+# Environment
+python-dotenv>=1.0
+
+# Validation & Config
+pydantic>=2.8
+pydantic-settings>=2.0
+
+# Logging
+loguru>=0.7
+
+# LangChain (LATEST STABLE — Nov 2025)
+langchain>=1.1.0
+langchain-community>=0.2.0
+langchain-core>=0.3.0
+langchain-openai>=0.2.0
+langchain-text-splitters>=0.3.0
+langchain-huggingface>=0.0.3   # ← REQUIRED FOR HuggingFaceEmbeddings
+
+# Vector DB
+chromadb>=0.5.0
+
+# Embeddings (precompiled)
+sentence-transformers>=3.0
+
+# Document loaders
+unstructured[all-docs]>=0.15
+pypdf>=4.0
+python-docx>=1.0
+docx2txt>=0.8          # Fixes DOCX import issues
+
+# Token counting
+tiktoken>=0.7
